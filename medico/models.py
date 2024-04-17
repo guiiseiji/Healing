@@ -30,3 +30,12 @@ class DadosMedico(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    
+class DatasAbertas (models.Model):
+    data = models.DateTimeField()
+    agendado = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    
+    def __str__(self):
+        return str(self.data)
