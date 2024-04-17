@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from .models import Especialidades, DadosMedico, is_medico, DatasAbertas
 from django.contrib.messages import constants
 from django.contrib import messages
 from django.contrib import auth
-from datetime import datetime, date
+import datetime
 # Create your views here.
 
 
@@ -70,6 +69,7 @@ def abrir_horario (request):
     elif request.method == "POST":
         data = request.POST.get('data') 
         data_formatada = datetime.strptime(data, '%Y-%m-%dT%H:%M')
+        
         if data_formatada <= datetime.now():
             messages.add_message(request, messages.WARNING, 'Data indisponível')
             return redirect ('/medicos/abrir_horario')           
