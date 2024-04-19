@@ -3,7 +3,9 @@ from .models import Especialidades, DadosMedico, is_medico, DatasAbertas
 from django.contrib.messages import constants
 from django.contrib import messages
 from django.contrib import auth
-import datetime
+from datetime import datetime, timedelta
+from paciente.models import Consulta
+
 # Create your views here.
 
 
@@ -75,7 +77,7 @@ def abrir_horario (request):
             return redirect ('/medicos/abrir_horario')           
     
         horario_abrir = DatasAbertas(
-            data = format(data, "%d/%m/%Y"),
+            data = data,
             user = request.user
         )
         
@@ -83,3 +85,16 @@ def abrir_horario (request):
         
         messages.add_message(request, constants.SUCCESS, "Horário marcado com sucesso")
         return redirect ('/medicos/abrir_horario')
+    
+def consultas_medico (request):
+    if not is_medico (request.user):
+        messages.add_message(request, constants.WARNING, "Página exclusiva para médicos")
+        return redirect ('/usuarios/sair')
+    
+    hoje = datetime.now().date()
+    consultas_hoje = Consulta.objects.filter(data_aberta__user = request.user).filter(data_aberta__data__gte = hoje).filter(data_aberta__data__lt = hoje + timedelta(days=1))
+    consultas_proximas = Consulta.objects.exclude (id__in = consultas_hoje.values('id'))
+    
+    
+    return render (request, 'consultas_medico.html', {'consultas_hoje':consultas_hoje, 'consultas_proximas': consultas_proximas})
+    

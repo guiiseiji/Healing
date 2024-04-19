@@ -42,22 +42,22 @@ def cadastro (request):
         return redirect ('/usuarios/login')
     
 
-def login_view (request):
+def login_view(request):
     if request.method == "GET":
         return render(request, 'login.html')
     
     elif request.method == "POST":
-        username = request.POST.get ('username')
-        senha = request.POST.get ('senha')
-        
-        user = auth.authenticate(request, username=username, password=senha)        
-        
+        username = request.POST.get('username')
+        senha = request.POST.get("senha")
+
+        user = auth.authenticate(request, username=username, password=senha)
+
         if user:
             auth.login(request, user)
-            return redirect ('/pacientes/home')
-        
-        messages.add_message(request, constants.ERROR, "Usuário ou senha inválidos")
-        return redirect ('/usuarios/login')    
+            return redirect('/pacientes/home')
+
+        messages.add_message(request, constants.ERROR, 'Usuário ou senha incorretos')
+        return redirect('/usuarios/login')    
         
                 
 def logout (request):

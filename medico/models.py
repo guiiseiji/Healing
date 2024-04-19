@@ -34,7 +34,7 @@ class DadosMedico(models.Model):
     
     @property
     def proxima_data(self):
-        proxima_data = DatasAbertas.objects.filter (user=self.user).filter(data__gt=datetime.now()).filter(agendado=False).order_by('data').first
+        proxima_data = DatasAbertas.objects.filter(user=self.user).filter(data__gt=datetime.now()).filter(agendado=False).order_by('data').first()
         return proxima_data
         
         

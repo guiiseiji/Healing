@@ -19,18 +19,19 @@
         <div class="col-md-8">
 
             <p style="font-size: 25px" class="p-bold">Olá, <span class="color-dark">{{request.user.username}}.</span></p>
-            <form action="{% url 'home'%}" post="GET">
+            <form action="{% url 'home' %}" post="GET">
                 <input type="text" class="form-control shadow-main-color" placeholder="Busque por profissionais ..." name="medico">
                 <br>
 
                 <div class="especialidades">
-
-                    {% for especialidade in especialidades %}
-                        <input type="checkbox" name="especialidades" value="especialidade.id">
-                        <span class="badge bg-secondary">
-                            {{especialidade.especialidade}}              
-                        </span>
-                    {% endfor %}
+                  {% for especialidade in especialidades %}
+                    <input type="checkbox" name="especialidades" value="{{especialidade.id}}">
+                    <span class="badge bg-secondary">
+                
+                      {{especialidade}}
+                    
+                    </span>
+                   {% endfor %}
                     
 
                 </div>
@@ -41,28 +42,30 @@
 
             <div class="list-medicos">
                
-                {% for medico in medicos %}
+              {% for medico in medicos %}
                 <div class="card-medicos shadow-main-color">
                     <div class="row">
                         <div class="col-md-3"><img src="{{medico.foto.url}}" class="foto-perfil-card" alt=""></div>
                         <div class="col-md">
-                            <p style="font-size: 20px" class="p-bold"> {{medico.name}} <i class="bi bi-patch-check-fill icon-main"></i></p>
+                            <p style="font-size: 20px" class="p-bold">Dr(a). {{medico.nome}} <i class="bi bi-patch-check-fill icon-main"></i></p>
                             <p>{{medico.descricao}}</p>
                         </div>
                     </div>  
-                    <p><i class="bi bi-map icon-main"></i>&nbsp&nbsp{{medico.rua}}</p>
+                    <p><i class="bi bi-map icon-main"></i>&nbsp&nbsp{{medico.rua}}, {{medico.numero}}.</p>
                     <p><i class="bi bi-calendar2-week icon-main"></i>&nbsp&nbspProxima data: 
-                        {% if medico.proxima_data %}
-                            {{medico.proxima_data}}
-                        {% else %}
-                            Sem datas abertas.
-                        {% endif %}
                         
-                    <a href="#" class="btn btn-success btn-dark-color">Agendar</a>
+                      {% if medico.proxima_data %}
+                       {{medico.proxima_data}}
+                      {% else %}
+                        Aguarde uma data.
+                      {% endif %}
+                        
+                    <a href="{% url 'escolher_horario' medico.id %}" class="btn btn-success btn-dark-color">Agendar</a>
                 </div>
-                {% endfor %}
                 <br>
-                
+              {% endfor %}
+              
+            <br>             
 
 
             </div>
