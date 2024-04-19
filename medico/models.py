@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
+
 # Create your models here.
 
 def is_medico(user):
@@ -47,3 +48,5 @@ class DatasAbertas (models.Model):
     
     def __str__(self):
         return str(self.data)
+    
+
